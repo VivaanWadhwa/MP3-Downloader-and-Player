@@ -1,7 +1,7 @@
 #%%
 import matplotlib.pyplot as plt
 import math
-x,y,z=[],[],[]
+x,y=[],[]
 for a in range(0,10000,100):
     x.append(a)
     y.append(a)
