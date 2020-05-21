@@ -14,6 +14,5 @@ for row in lines:
     for col in row: 
         print(col,end="\t")
     print('\n')
-print ("hellp")
 
 
