@@ -13,7 +13,7 @@ with open(filename, 'r') as readFile:
 for row in lines: 
     for col in row: 
         print(col,end="\t")
-    print('\n') 
-
+    print('\n')
+print ("hellp")
 
 
