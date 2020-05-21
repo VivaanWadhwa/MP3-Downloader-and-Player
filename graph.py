@@ -9,4 +9,3 @@ for a in range(0,10000,100):
 plt.plot(x, y, color='green', linestyle='dashed', linewidth = 2, 
          marker='o', markerfacecolor='blue', markersize=1)
 
-``
