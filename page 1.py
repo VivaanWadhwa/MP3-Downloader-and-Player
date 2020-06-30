@@ -6,19 +6,19 @@ a,song=0,""
 mixer.init()
 global playing
 playing = False
-window=tk.Tk()
+window = tk.Tk()
 window.geometry('1920x1080')
-sb=tk.Scrollbar(window)
+sb = tk.Scrollbar(window)
 sb.pack(side='right', fill='y')
-lb=tk.Listbox(window,width=280,relief='flat',height=55)
+lb = tk.Listbox(window,width=280,relief='flat',height=55)
 lb.place(x=0,y=100)
 lb.config(yscrollcommand = sb.set)
 songs = os.listdir(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\Music")
 for x in songs:
     lb.insert(a,x)
     a+=1
-loadimagePlay=tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\play.png")
-loadimagePause=tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\pause.png")
+loadimagePlay = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\play.png")
+loadimagePause = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\pause.png")
 
 def clicked_play():
     global playing
