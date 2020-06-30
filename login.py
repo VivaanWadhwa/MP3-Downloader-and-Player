@@ -3,8 +3,14 @@ import os
 import time
 from tkinter.ttk import Progressbar
 import sqlite3
+import mysql.connector
 username_verify = ""
-
+mydb=mysql.connector.connect(
+    host='remotemysql.com',
+    username = 'HtuP1mmwZ4',
+    password = 'QbvpkZsOwM',
+    database = 'HtuP1mmwZ4'
+)
 def register():
     global register_screen
 
@@ -42,18 +48,21 @@ def login():
     Label(login_screen, text="").pack()
 
     global username_login_entry,password_login_entry
-    conn=sqlite3.connect(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\try.db")
-    cur=conn.cursor()
-    cur.execute("SELECT username FROM trial;")
+    # conn = mydb.cursor()
+    # conn=sqlite3.connect(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\try.db")
+    # cur=conn.cursor()
+    conn = mydb.cursor()
+    conn.execute("SELECT username FROM trial;")
 
     options =[]
-    for username in cur.fetchall():
+    for username in conn.fetchall():
         options.append(username)
+    print (options)
 
-    variable=StringVar()
+    variable = StringVar()
     variable.set("Username")
 
-    drop=OptionMenu(login_screen,variable,*options)
+    drop=OptionMenu(login_screen,variable,options[0],*options)
     drop.pack()
 
     # button = Button(login_screen, text="OK", command=ok)
@@ -89,12 +98,13 @@ def login():
 
 def signup_database():
 
-    conn=sqlite3.connect(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\try.db")
-    cur=conn.cursor()
-    cur.execute("create table if not exists trial(username text , password text)")
-    cur.execute("insert into trial VALUES (?,?)",(username_entry.get(),password_entry.get()))
-    conn.commit()
-    conn.close()
+    # conn=sqlite3.connect(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\try.db")
+    # cur=conn.cursor()
+    conn=mydb.cursor()
+    conn.execute("create table if not exists trial(username text , password text)")
+    # conn.execute("insert into trial VALUES (?,?)",(username_entry.get(),password_entry.get()))
+    conn.execute("insert into trial VALUES (%s,%s)",(username_entry.get(),password_entry.get()))
+    mydb.commit()
 
     username_entry.delete(0, END)
     password_entry.delete(0, END)
@@ -111,13 +121,12 @@ def checklogin():
         elif ord(letter) >= 97 and ord(letter) <= 122:
             username_verify += letter
     password_login_entry.config(textvariable = password_verify)
-    conn = sqlite3.connect(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\try.db")
-    cur = conn.cursor()
-    cur.execute("select * from trial where username=? and password=?",(username_verify,password_verify.get()))
-    print (username_verify)
-    row = cur.fetchmany(size=2)
-    print (row)
-    conn.close()
+    # conn = sqlite3.connect(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\try.db")
+    # cur = conn.curso(r)
+    # conn.execute("select * from trial where username=? and password=?",(username_verify,password_verify.get()))
+    conn = mydb.cursor()
+    conn.execute("select * from trial where username=%s and password=%s",(username_verify,password_verify.get()))
+    row = conn.fetchmany(size=2)
     if len(row) != 0:
         username = row[0][0]
         Label(login_screen,text="welcome "+username).pack()

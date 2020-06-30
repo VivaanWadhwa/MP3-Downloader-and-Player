@@ -1,6 +1,7 @@
 import tkinter as tk
 import os
 from pygame import mixer
+import mysql.connector
 a,song=0,""
 mixer.init()
 global playing
