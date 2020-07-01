@@ -2,7 +2,7 @@ from tkinter import *
 import os
 import time
 from tkinter.ttk import Progressbar
-import sqlite3
+# import sqlite3
 import mysql.connector
 username_verify = ""
 mydb=mysql.connector.connect(
