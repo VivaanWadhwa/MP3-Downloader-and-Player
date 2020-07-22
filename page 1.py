@@ -2,6 +2,8 @@ import tkinter as tk
 import os
 from pygame import mixer
 import mysql.connector
+import UploadSong
+
 # mydb=mysql.connector.connect(
 #     host='remotemysql.com',
 #     username = 'HtuP1mmwZ4',

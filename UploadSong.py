@@ -13,9 +13,9 @@ def upload(name,file):
     print ("inserting song into songs table")
     try:
         connection=mysql.connector.connect(host='remotemysql.com',
-    username = 'HtuP1mmwZ4',
-    password = 'QbvpkZsOwM',
-    database = 'HtuP1mmwZ4')
+                                            username = 'HtuP1mmwZ4',
+                                            password = 'QbvpkZsOwM',
+                                            database = 'HtuP1mmwZ4')
 
         cursor=connection.cursor()
 
@@ -60,9 +60,9 @@ def read(song_name):
     x=name[0][1]
     write(x)
 
-#upload("happier","/Users/Vaibhav/Downloads/happier ft bastille - [BiggyMp3].mp3")
-read("happier")
+# #upload("happier","/Users/Vaibhav/Downloads/happier ft bastille - [BiggyMp3].mp3")
+# read("happier")
 
-mp3=input("enter mp3 file:")
-playsound(mp3)
+# mp3=input("enter mp3 file:")
+# playsound(mp3)
 
