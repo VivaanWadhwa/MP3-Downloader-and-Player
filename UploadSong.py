@@ -7,7 +7,6 @@ mixer.init()
 def convert(filename):
     with open (filename,'rb') as file:
         binarydata=file.read()
-    print (binarydata)
     return(binarydata)
 
 def upload(name,file):
@@ -48,6 +47,8 @@ def stream(data):
 
 def pause():
     mixer.music.pause()
+def unpause():
+    mixer.music.unpause()
 def read(song_name):
     connection = pymysql.connect(host='remotemysql.com',
                                          user='HtuP1mmwZ4',
@@ -75,7 +76,7 @@ def getsongs():
     cursor.execute(query)
     songs=cursor.fetchall()
     return songs
-#upload("happier","/Users/Vaibhav/Downloads/happier ft bastille - [BiggyMp3].mp3")
+# upload("Audio Jungle",r"D:\Users\Vivaan\Documents\GitHub\CS-Project\Music\Audio Jungle.mp3")
 # read("happier")
 
 # mp3=input("enter mp3 file:")

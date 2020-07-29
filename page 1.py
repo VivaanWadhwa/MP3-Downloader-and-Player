@@ -1,6 +1,6 @@
 import tkinter as tk
 import os
-from playsound import playsound
+from pygame import mixer
 import mysql.connector
 import UploadSong
 
@@ -16,7 +16,8 @@ def initialise():
     playing = False
 
 def mainscreen():
-    a=0
+    global songbefore,playedonce
+    a,songbefore=0,""
     playedonce = False
     page_1 = tk.Tk()
     page_1.geometry('1920x1080')
@@ -32,12 +33,24 @@ def mainscreen():
     loadimagePlay = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\play.png")
     loadimagePause = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\pause.png")
     def clicked():
-        global playing
         song = lb.get(lb.curselection())
+        global playing,playedonce,songbefore
+        if song != songbefore:
+            playing = False
+            playedonce = False
+        else:
+            mixer.music.unload()
+        songbefore=song
         if playing == False:
-            UploadSong.read(song)
-            playB.config(image = loadimagePause)
-            playing = True
+            if playedonce == False:
+                UploadSong.read(song)
+                playB.config(image = loadimagePause)
+                playedonce = True
+                playing = True
+            else:
+                UploadSong.unpause()
+                playing = True
+                playB.config(image = loadimagePause)
         else:
             UploadSong.pause()
             playB.config(image = loadimagePlay)
