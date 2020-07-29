@@ -1,24 +1,19 @@
 import tkinter as tk
 import os
-from pygame import mixer
+from playsound import playsound
 import mysql.connector
 import UploadSong
 
-# mydb=mysql.connector.connect(
-#     host='remotemysql.com',
-#     username = 'HtuP1mmwZ4',
-#     password = 'QbvpkZsOwM',
-#     database = 'HtuP1mmwZ4'
-# )
+mydb=mysql.connector.connect(
+    host='remotemysql.com',
+    username = 'HtuP1mmwZ4',
+    password = 'QbvpkZsOwM',
+    database = 'HtuP1mmwZ4'
+)
 
 def initialise():
-    mixer.init()
     global songs,loadimagePlay,loadimagePause,playing
-    songs = os.listdir(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\Music")
     playing = False
-    # conn=mydb.cursor()
-    # conn.execute("insert into Blobtable (ImageName, varBinaryData) select 'image1', BulkColumn from openrowset (Bulk r'D:\Users\Vivaan\Documents\GitHub\CS-Project\play.png', SINGLE_BLOB) AS varBinaryData;")
-    # mydb.commit()
 
 def mainscreen():
     a=0
@@ -30,8 +25,9 @@ def mainscreen():
     lb = tk.Listbox(page_1,width=280,relief='flat',height=55)
     lb.place(x=0,y=100)
     lb.config(yscrollcommand = sb.set)
+    songs=UploadSong.getsongs()
     for x in songs:
-        lb.insert(a,x)
+        lb.insert(a,x[0])
         a+=1
     loadimagePlay = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\play.png")
     loadimagePause = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\pause.png")
@@ -39,12 +35,11 @@ def mainscreen():
         global playing
         song = lb.get(lb.curselection())
         if playing == False:
-            mixer.music.load(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\Music\%s"%song)
-            mixer.music.play()
+            UploadSong.read(song)
             playB.config(image = loadimagePause)
             playing = True
         else:
-            mixer.music.pause()
+            UploadSong.pause()
             playB.config(image = loadimagePlay)
             playing = False
     playB = tk.Button(
@@ -60,26 +55,5 @@ def mainscreen():
 initialise()
 mainscreen()
 
-# a,song=0,""
-# global playing
-# playing = False
-# songs = os.listdir(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\Music")
-# for x in songs:
-#     lb.insert(a,x)
-#     a+=1
-# loadimagePlay = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\play.png")
-# loadimagePause = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\pause.png")
 
-# def clicked_play():
-#     global playing
-#     song = lb.get(lb.curselection())
-#     if playing == False:
-#         mixer.music.load(r"D:\Users\Vivaan\Documents\GitHub\CS-Project\Music\%s"%song)
-#         mixer.music.play()
-#         playB.config(image = loadimagePause)
-#         playing = True
-#     else:
-#         mixer.music.pause()
-#         playB.config(image = loadimagePlay)
-#         playing = False
-# 
+

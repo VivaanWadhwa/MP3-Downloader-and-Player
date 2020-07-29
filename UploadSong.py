@@ -1,8 +1,9 @@
 from tkinter import *
 import mysql.connector
 import pymysql
-from playsound import playsound
+from pygame import mixer
 
+mixer.init()
 def convert(filename):
     with open (filename,'rb') as file:
         binarydata=file.read()
@@ -39,10 +40,14 @@ def upload(name,file):
             connection.close()
             print("MySQL connection is closed")
 
-def write(data):
+def stream(data):
     with open('s.mp3', 'wb') as file:
         file.write(data)
+    mixer.music.load("s.mp3")
+    mixer.music.play()
 
+def pause():
+    mixer.music.pause()
 def read(song_name):
     connection = pymysql.connect(host='remotemysql.com',
                                          user='HtuP1mmwZ4',
@@ -55,14 +60,24 @@ def read(song_name):
     cursor.execute(query,(song_name,))
     record=cursor.fetchall()
 
-    print (record)
+    # print (record)
     (name)=record
     x=name[0][1]
-    write(x)
+    stream(x)
 
-# #upload("happier","/Users/Vaibhav/Downloads/happier ft bastille - [BiggyMp3].mp3")
+def getsongs():
+    connection = pymysql.connect(host='remotemysql.com',
+                                         user='HtuP1mmwZ4',
+                                         password='QbvpkZsOwM',
+                                         database='HtuP1mmwZ4')
+    cursor=connection.cursor()
+    query="""select name from songs"""
+    cursor.execute(query)
+    songs=cursor.fetchall()
+    return songs
+#upload("happier","/Users/Vaibhav/Downloads/happier ft bastille - [BiggyMp3].mp3")
 # read("happier")
 
 # mp3=input("enter mp3 file:")
 # playsound(mp3)
-
+# read("happier")
