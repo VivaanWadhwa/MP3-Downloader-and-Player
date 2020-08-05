@@ -2,6 +2,7 @@ from tkinter import *
 import mysql.connector
 import pymysql
 from pygame import mixer
+import os
 
 mixer.init()
 def convert(filename):
@@ -39,32 +40,39 @@ def upload(name,file):
             connection.close()
             print("MySQL connection is closed")
 
-def stream(data):
-    with open('s.mp3', 'wb') as file:
-        file.write(data)
-    mixer.music.load("s.mp3")
-    mixer.music.play()
-
+def stream(data,song_name):
+    song=("%s.mp3",song_name)
+    if os.isfile(song):
+        mixer.music.load(song)
+        mixer.music.play()
+    else:
+        with open(song, 'wb') as file:
+            file.write(data)
+        mixer.music.load(song)
+        mixer.music.play()
+    
+def unload():
+    mixer.music.unload()
 def pause():
     mixer.music.pause()
 def unpause():
     mixer.music.unpause()
 def read(song_name):
-    connection = pymysql.connect(host='remotemysql.com',
-                                         user='HtuP1mmwZ4',
-                                         password='QbvpkZsOwM',
-                                         database='HtuP1mmwZ4')
-    cursor=connection.cursor()
+        connection = pymysql.connect(host='remotemysql.com',
+                                            user='HtuP1mmwZ4',
+                                            password='QbvpkZsOwM',
+                                            database='HtuP1mmwZ4')
+        cursor=connection.cursor()
 
-    query="""select * from songs where name=%s"""
+        query="""select * from songs where name=%s"""
 
-    cursor.execute(query,(song_name,))
-    record=cursor.fetchall()
+        cursor.execute(query,(song_name,))
+        record=cursor.fetchall()
 
-    # print (record)
-    (name)=record
-    x=name[0][1]
-    stream(x)
+        # print (record)
+        (name)=record
+        x=name[0][1]
+        stream(x,song_name)
 
 def getsongs():
     connection = pymysql.connect(host='remotemysql.com',
@@ -76,6 +84,7 @@ def getsongs():
     cursor.execute(query)
     songs=cursor.fetchall()
     return songs
+
 # upload("Audio Jungle",r"D:\Users\Vivaan\Documents\GitHub\CS-Project\Music\Audio Jungle.mp3")
 # read("happier")
 

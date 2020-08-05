@@ -32,14 +32,16 @@ def mainscreen():
         a+=1
     loadimagePlay = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\play.png")
     loadimagePause = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\pause.png")
-    def clicked():
+    loadimagequeue = tk.PhotoImage(file=r"D:\Users\Vivaan\Documents\GitHub\CS-Project\queue.png")
+    def clicked_play():
         song = lb.get(lb.curselection())
         global playing,playedonce,songbefore
         if song != songbefore:
             playing = False
             playedonce = False
         else:
-            mixer.music.unload()
+            # pass
+            UploadSong.unload()
         songbefore=song
         if playing == False:
             if playedonce == False:
@@ -58,11 +60,22 @@ def mainscreen():
     playB = tk.Button(
                 page_1,
                 background = 'white',
-                command = clicked,
+                command = clicked_play,
                 image = loadimagePlay
                 )
-    
+    def clicked_queue():
+        lb.get(lb.curselection())
+        while mixer.music.get_busy() == False:
+            pass
+        else:
+            clicked_play()
+    queueB = tk.Button(
+        background = 'white',
+        command = clicked_queue,
+        image = loadimagequeue
+    )
     playB.place(x=1920/2-80,y=995)
+    queueB.place(x=1920/2-10,y=995)
     page_1.mainloop()
 
 initialise()
