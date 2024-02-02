@@ -108,6 +108,7 @@ class Musicplayer(Tk):
                 self.playingsong = self.playlist.get(ACTIVE)
                 self.playingstatus="playing"
                 self.button.set("Pause")
+                
     def queue(self):
         global queuedsongs
         queuedsongs = []
